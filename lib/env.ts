@@ -1,15 +1,10 @@
-function requireEnv(name: string): string {
-  const value = process.env[name]
-  if (!value) {
-    throw new Error(
-      `Missing required environment variable: ${name}\n` +
-        `Copy .env.local.example to .env.local and fill in your values.`
-    )
-  }
-  return value
-}
+// Returns the Supabase env vars if available, or null if not set.
+// The app works without them — Supabase features are simply skipped.
+export function getSupabaseEnv(): { url: string; anonKey: string } | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-export const env = {
-  NEXT_PUBLIC_SUPABASE_URL: requireEnv('NEXT_PUBLIC_SUPABASE_URL'),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: requireEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
+  if (!url || !anonKey) return null
+
+  return { url, anonKey }
 }
