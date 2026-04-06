@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+import { APP_NAME, APP_DESCRIPTION } from '@/config/app'
 
 const geist = localFont({
   src: '../public/fonts/geist-latin.woff2',
@@ -8,8 +9,8 @@ const geist = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'My App',
-  description: 'Built with Capsule AI',
+  title: APP_NAME,
+  description: APP_DESCRIPTION,
 }
 
 export default function RootLayout({
