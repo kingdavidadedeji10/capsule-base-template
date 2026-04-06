@@ -1,19 +1,28 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next'
+import localFont from 'next/font/local'
+import './globals.css'
+
+const geist = localFont({
+  src: '../public/fonts/geist-latin.woff2',
+  variable: '--font-geist-sans',
+})
 
 export const metadata: Metadata = {
-  title: "Capsule App",
-  description: "Built with the Capsule Base Template",
-};
+  title: 'My App',
+  description: 'Built with Capsule AI',
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={geist.variable}>
+      <body className="min-h-screen bg-background font-sans antialiased">
+        {children}
+      </body>
     </html>
-  );
+  )
 }
+
