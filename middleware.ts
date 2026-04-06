@@ -1,13 +1,20 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { env } from '@/lib/env'
+import { getSupabaseEnv } from '@/lib/env'
 
 export async function middleware(request: NextRequest) {
+  const supabaseEnv = getSupabaseEnv()
+
+  // If Supabase env vars are not set (e.g. template testing), skip middleware
+  if (!supabaseEnv) {
+    return NextResponse.next()
+  }
+
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    env.NEXT_PUBLIC_SUPABASE_URL,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseEnv.url,
+    supabaseEnv.anonKey,
     {
       cookies: {
         getAll() {
@@ -26,7 +33,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session — do not remove this
+  // Refresh session — required for Supabase auth to work
   await supabase.auth.getUser()
 
   return supabaseResponse
