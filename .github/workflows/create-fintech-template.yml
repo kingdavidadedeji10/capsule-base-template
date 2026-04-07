@@ -1,0 +1,27 @@
+name: Create fintech-template branch
+on:
+  push:
+    branches: [main]
+jobs:
+  create-fintech-template:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create fintech-template branch if not exists
+        run: |
+          if git ls-remote --exit-code --heads origin fintech-template; then
+            echo "fintech-template branch already exists, skipping"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # b5c6ef4 is the last commit before the fintech cleanup PR was merged to main.
+          # It contains the full fintech app (Paystack, profiles, transactions).
+          git checkout b5c6ef4bc93b40d8d771859bd7ec28afe63d651b -B fintech-template
+          git push origin fintech-template
+          echo "Created fintech-template branch from b5c6ef4"
