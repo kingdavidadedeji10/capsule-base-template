@@ -20,6 +20,8 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout b5c6ef4bc93b40d8d771859bd7ec28afe63d651b -b fintech-template
+          # b5c6ef4 is the last commit before the fintech cleanup PR was merged to main.
+          # It contains the full fintech app (Paystack, profiles, transactions).
+          git checkout b5c6ef4bc93b40d8d771859bd7ec28afe63d651b -B fintech-template
           git push origin fintech-template
           echo "Created fintech-template branch from b5c6ef4"
